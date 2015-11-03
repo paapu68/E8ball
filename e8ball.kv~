@@ -1,0 +1,86 @@
+#:kivy 1.0.9
+
+<Pelipallot>:
+    id: peli_pallot
+
+#<Keppi>:
+#    canvas:
+
+
+<Pelilauta>:
+    id: peli_lauta
+    canvas.before:
+        Color:
+            rgba: 0, 1, 0, 0.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        #reiat
+        Ellipse:
+            pos: 0, 0
+            size: root.hole_d*self.width, root.hole_d*self.width
+        Ellipse:
+            pos: 0, root.max_y*self.height*0.5
+            size: root.hole_d*root.width, root.hole_d*root.width
+        Ellipse:
+            pos: 0, root.max_y*self.height-root.hole_d*self.width
+            size: root.hole_d*self.width, root.hole_d*self.width
+        Ellipse:
+            pos: self.width-root.hole_d*self.width, 0
+            size: root.hole_d*self.width, root.hole_d*self.width
+        Ellipse:
+            pos: self.width-root.hole_d*self.width, root.max_y*self.height*0.5
+            size: root.hole_d*root.width, root.hole_d*root.width
+        Ellipse:
+            pos: self.width-root.hole_d*self.width, root.max_y*self.height-root.hole_d*self.width
+            size: root.hole_d*self.width, root.hole_d*self.width
+        #Ellipse:
+        #    pos: self.width-root.hole_d*self.width, 0
+        #    size: root.hole_d*self.width, root.hole_d*self.width
+        #Ellipse:
+        #    pos: self.width-root.hole_d*self.width, self.center_y
+        #    size: root.hole_d*self.width, root.hole_d*self.width
+        #Ellipse:
+        #    pos: self.width-root.hole_d*self.width, root.max_y*self.height-root.hole_d*self.height
+        #    size: root.hole_d*self.width, root.hole_d*self.width
+
+        #pallot
+	#Line:
+        #    circle: 
+        #Rectangle:
+        #    pos: self.pos
+        #    size: self.size
+
+<E8ballGame>:
+    lauta: peli_lauta
+    #keppi: peli_keppi
+    pallot: peli_pallot
+    canvas:
+        Color:
+            rgba: 1, 0, 1, 1
+        Line:
+            points: (self.x1, self.y1, self.x2, self.y2)
+            #points: (10, 10, 100, 100)		
+            width: 30
+
+    #Keppi:
+    #    id: peli_keppi
+    #    height: self.parent.height
+    #    width: self.parent.width
+
+    Pelilauta:
+        id: peli_lauta
+        #center_x: self.parent.center_x
+        #center_y: self.parent.center_y
+        height: self.parent.height
+        width: self.parent.width
+    Pelipallot:
+        id: peli_pallot
+        height: self.parent.height
+        width: self.parent.width
+
+
+

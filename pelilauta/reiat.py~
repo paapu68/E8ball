@@ -1,0 +1,113 @@
+# -*- coding: iso-8859-15 -*-
+"""
+ * Biljardipöydän reikien koordinaatit kahdessa ArrayList:ssä
+ * Toisessa x koordinaatit toisessa y.
+ * Lisäksi metodeja joissa tutkitaan onko pallo mennyt reikään.
+"""
+class Reiat:
+    """
+    * Alustetaan 6 reikää paikoilleen
+    * @param reiatX reikien x koordinaatit reaaliavaruudessa
+    * @param reiatY reikien y koordinaatit reaaliavaruudessa
+    * 'mitaReiissa' kertoo montako palloa kutakin väriä
+    * on mennyt reikiin tämän lyönnin aikana.
+    """
+
+    def __init__(self):
+        self.reiatX = []
+        self.reiatY = []
+        #LautaData lautadata = new LautaData();
+        self.mitaReiissa = {}
+        self.mitaReiissa["musta"] = 0
+        self.mitaReiissa["valkoinen"] = 0
+        self.mitaReiissa["punainen"] = 0
+        self.mitaReiissa["sininen"] = 0
+        self.ekanaReiassa = "enTieda"
+        jotainReiissa = False
+
+    def resetoiReiat(self):
+        self.mitaReiissa["musta"] = 0
+        self.mitaReiissa["valkoinen"] = 0
+        self.mitaReiissa["punainen"] = 0
+        self.mitaReiissa["sininen"] = 0
+        self.ekanaReiassa = "enTieda"
+    
+    def setReikaXY(self, x, y):
+        self.reiatX.append(x);
+        self.reiatY.append(y);
+    
+    def getReiatX(self):
+        return self.reiatX
+
+    def getReiatY(self):
+        return self.reiatY
+
+    def lisaaReikiinMenneet(self, pallot):
+        """ 
+        * päivitetään reikien sisältö jos palloja on mennyt reikiin.
+        """
+
+        for p1 in pallot.getPallotArray():
+             if (not self.tarkastaPallo(p1)):
+                 # pallo on reiassa            
+                 vari = p1.getPalloVari();
+                 lkm = self.mitaReiissa.get(vari);
+                 lkm = lkm + 1;
+                 self.mitaReiissa.put(vari, lkm);
+             
+        
+    def getMitaReiissa(self):
+        """
+        * otetaan tämänhetkinen tilanne mitä rei'issä on.
+        * @return dictionary joka kertoo montako minkäkin väristä 
+        * palloa rei'issä tämän lyönnin aikana.
+        """
+        return self.mitaReiissa;
+    
+    def ekanaReiassa(self, pallot):
+        """ Minkä värinen pallo meni ensimmäisenä reikään?
+        * Vastaus on "enTieda" jos mitään ei mennyt reikään.
+        """
+        if (self.ekanaReiassa.equals("enTieda")):
+            for p1 in pallot.getPallotArray():
+                if (not(self.tarkastaPallo(p1))):
+                    # pallo on reiassa
+                    self.ekanaReiassa = p1.getPalloVari() 
+
+    def getEkanaReiassa(self):
+        return self.ekanaReiassa
+
+
+    def tapaNormiPallot(self, pallot):
+        """
+        * Jos normipallo (eli ei valkoinen lyöntipallo, eikä musta)
+        * on mennyt reikään niin se tapetaan pois
+        * @param pallot biljardipallot 
+        """
+        p1 = pallot.getPallotArray()
+        tapa = []
+        for i in range(len(p1), 1, -1):
+            if (not(self.tarkastaPallo(p1.get(i)))):
+                tapa.append(i)
+        for t1 in tapa:
+            pallot.poistaPallo(t1)
+    
+    def tarkastaPallo(self, pallo):
+        """
+        * Tutkitaan onko pallo mennyt reikään.
+        * @param pallo turkittava pallo
+        * @return jos pallo on reiässä palautetaan false, muuten true
+        """
+        from math import sqrt
+        jatka = true
+
+        x = pallo.getPalloX()
+        y = pallo.getPalloY()
+        for j in range(0, len(self.reiatX)):
+            d = sqrt((x-self.reiatX[j])**2
+                +(y-self.reiatY[j])**2)
+            if (d < lautadata.reianHalkaisija/2.0):
+                jatka = false
+        return jatka
+
+

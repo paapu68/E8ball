@@ -1,0 +1,107 @@
+# -*- coding: iso-8859-15 -*-
+"""
+ * Biljardipelin pyörityslogiikkaa, lisäksi metodit joilla saadaan
+ * kaivettua pelin osia.
+"""
+from pelaajat import Pelaajat
+from peli.lisaaKiihtyvyydet import LisaaKiihtyvyydet
+from pelilauta.lautadata import LautaData
+from peli.velocityVerlet import VelocityVerlet
+from pelilauta.seina import Seina
+from pelilauta.reiat import Reiat
+from pelilauta.keppi import Keppi
+from pelilauta.pallot import Pallot
+from gui.piirtoalusta import PiirtoAlusta
+from kivy.uix.widget import Widget
+#from pelaaja import Pelaaja
+
+class Biljardipeli(Widget):
+    def __init__(self):
+        super(Biljardipeli, self).__init__()
+        self.pelaajat = Pelaajat();
+        self.lisaakiihtyvyydet = LisaaKiihtyvyydet();
+        self.lautadata = LautaData();        
+        self.nopeusVerlet= VelocityVerlet(self.lautadata.dt);
+        self.seina = Seina();
+        self.reiat = Reiat();
+        self.keppi = Keppi();
+        self.pallot = Pallot();
+        #self.piirtoalusta = PiirtoAlusta();
+        #self.piirtoalusta.set_peli(self.biljardipeli)
+        self.jatka = True;       
+        self.pallotliikkuu = False;
+        
+        self.pallot.asetaPallojenAlkupaikat();
+        self.pallot.asetaPallojenPerusVaraus(100);
+        self.pallot.asetaPallojenVaraukset();
+        self.pallot.asetaPallojenVarit();       
+        #self.piirtoalusta.piirra_keppi()
+
+    def juokse(self):
+
+        with self.canvas:
+            print "KUKKUU", self.size
+        while (self.jatka):
+          # ammutaan lyöntipallo
+          #setDelay(1);
+          self.reiat.resetoiReiat();
+
+          while (self.pallotliikkuu and self.jatka):
+                self.pallot.nollaaKiihtyvyydet();
+                self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
+                    self.pallot);
+                self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
+                self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
+                self.nopeusVerlet.PaivitaVelocityVerlet(self.pallot);
+                self.seina.VaihdaLiikemaara(self.pallot);
+                self.reiat.ekanaReiassa(pallot);
+                self.reiat.lisaaReikiinMenneet(pallot);            
+                self.pelaajat.alkaakoYrittaaMustaa(reiat);
+                self.reiat.tapaNormiPallot(self.pallot);
+            
+                self.jatka = reiat.tarkastaPallo(pallot.getMustaPallo());
+            
+                if (not(self.reiat.tarkastaPallo(self.pallot.getLyontiPallo()
+                                             ))):
+                    self.pallot.arvoLyontiPallonPaikka(0, 0, 
+                        self.lautadata.getMaxLautaX(),lautadata.getMaxLautaY(), 
+                        0.20);
+                    self.pallotliikkuu = False;
+                    self.pallot.nollaaNopeudet();
+                    # tutkitaan mitä tapahtui
+                    self.jatka = self.pelaajat.tarkastaTilanne(
+                        self.reiat, self.pallot);                
+                elif ((self.nopeusVerlet.getMaxSiirtyma() < maxSiirtyma) and 
+                      (self.pallot.suurinNopeus() < self.maxNopeus)):
+                    self.pallotliikkuu = false;
+                    self.pallot.nollaaNopeudet();
+                    self.nopeusVerlet.setMaxSiirtyma(1.0);
+                    # tutkitaan mitä tapahtui
+                    self.jatka = self.pelaajat.tarkastaTilanne(
+                        self.reiat, self.pallot);
+        # nollataan reikien tilanne uutta lyöntiä varten
+        self.jatka = self.pelaajat.tarkastaTilanne(self.reiat, self.pallot);
+
+    def getPallot(self):
+        return self.pallot
+    
+    def getPelaajat(self):
+        return self.pelaajat
+    
+    def getKeppi(self):
+        return self.keppi
+    
+    def getReiat(self):
+        return self.reiat
+    
+    def getPallotLiikkuu(self):
+        return self.pallotliikkuu
+    
+    def setPallotLiikkuu(self, pallotliikkuu):
+        self.pallotliikkuu = pallotliikkuu
+    
+    def getJatka(self):
+        return self.jatka
+
+    def setPaivitettava(self, paivitettava):
+        self.paivitettava = paivitettava
