@@ -22,8 +22,7 @@ class Pelilauta(Widget):
     hole_d = NumericProperty(lautadata.reianHalkaisija)
     max_y  = NumericProperty(lautadata.maxLautaY)
     def __init__(self, **kwargs):
-        #Widget.__init__(self, **kwargs)
-        pass
+        super(Pelilauta,self).__init__(**kwargs)
 
     def update(self):
         print "ennen uodate_rect"
@@ -33,6 +32,7 @@ class Pelilauta(Widget):
 
 class E8ballGame(Widget):
     lauta = ObjectProperty(None)
+    #pallo = ObjectProperty(None)
     #keppi = ObjectProperty(None)
     #kuuntelija = ObjectProperty(None)
     x1 = NumericProperty()
@@ -41,10 +41,13 @@ class E8ballGame(Widget):
     y2 = NumericProperty()
 
     def __init__(self, **kwargs):
-        Widget.__init__(self, **kwargs)
+        super(E8ballGame,self).__init__(**kwargs)
         self.pelilauta = Pelilauta()
         self.pallot = Pallot()
+        self.pallot.asetaPallojenAlkupaikat()
         print self.pallot
+        for pallo in self.pallot.pallot:
+            self.add_widget(pallo)
         #exit()
         self.biljardipeli = Biljardipeli(self.pallot)
         self.keppi = Keppi()
@@ -53,6 +56,8 @@ class E8ballGame(Widget):
         self.y1=0        
         self.x2=0
         self.y2=0
+        print "INIT"
+        #exit()
 
 #    def get_pallot(self):
 #        return self.pallot
@@ -80,8 +85,8 @@ class E8ballGame(Widget):
         self.y2 = touch.ud['y2']
         
     def update(self, dt):
-        #pass
-        self.pallot.update()
+        print "update"
+        #self.pallot.update()
         print "SHOT????", self.shot
         if self.shot:
             self.shot = False

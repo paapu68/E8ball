@@ -1,11 +1,11 @@
 #:kivy 1.0.9
 
-<Pallo>:
-    id: peli_pallo
-    canvas:
-        Ellipse:
-            pos: 0, 0
-            size: root.ball_d*self.width, root.ball_d*self.width
+#<Pallo>:
+#    id: peli_pallo
+#    canvas:
+#        Ellipse:
+#            pos: self.x, self.y
+#            size: self.ball_d*self.width, self.ball_d*self.width
 
 <Pelilauta>:
     id: peli_lauta
@@ -40,7 +40,7 @@
 
 <E8ballGame>:
     lauta: peli_lauta
-    pallo: peli_pallo
+#    pallo: peli_pallo
     canvas:
         Color:
             rgba: 1, 0, 1, 1
@@ -56,10 +56,10 @@
         height: self.parent.height
         width: self.parent.width
 
-    Pelipallot:
-        id: peli_pallo
-        #height: self.parent.height
-        #width: self.parent.width
+#    Pallo:
+#        id: peli_pallo
+#        #height: self.parent.height
+#        #width: self.parent.width
 
 
 

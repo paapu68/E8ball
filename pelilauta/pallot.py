@@ -8,7 +8,6 @@ from lautadata import LautaData
 lautadata = LautaData();
 
 class Pallot(Pallo):
-
     def __init__(self):
         self.pallot = []
         self.perusvaraus = 0.0
