@@ -15,6 +15,7 @@ from kivy.properties import ObjectProperty, NumericProperty, ListProperty, Boole
 from pelilauta.pallot import Pallot
 from pelilauta.lautadata import LautaData
 from pelilauta.keppi import Keppi
+from sys import exit
 
 lautadata = LautaData()
 
@@ -74,6 +75,8 @@ class E8ballGame(Widget):
 
 
     def on_touch_move(self, touch):
+        #print "KEPPI: self.width, self.height",self.width, self.height
+        #exit()
         self.shot = False
         touch.ud['x1'] = self.pallot.getLyontiPallo().getPalloX()*self.width
         touch.ud['y1'] = self.pallot.getLyontiPallo().getPalloY()*self.height

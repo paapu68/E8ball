@@ -11,6 +11,7 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty
 from pelilauta.lautadata import LautaData
 from kivy.graphics import Ellipse, Color, Rectangle
+from sys import exit
 
 lautadata = LautaData()
 
@@ -39,22 +40,24 @@ class Pallo(Widget):
         self.ay = 0.0;
         self.varaus = 0.0;
         self.vari = "";
+        print "PALLO: self.width, self.height",self.width, self.height
+        exit()
         with self.canvas:
             Color(1, 0, 0, 1)  # set the colour to red
             self.ellipse = Ellipse(pos=(self.x*self.width, self.y*self.height),
                                   size=(lautadata.pallonHalkaisija*self.width,
                                         lautadata.pallonHalkaisija*self.width))
-            self.ellipse = Ellipse(pos=self.center,
-                                  size=(lautadata.pallonHalkaisija*self.width,
-                                        lautadata.pallonHalkaisija*self.width))
-            self.rect = Rectangle(pos=self.center,
-                                  size=(self.width/2.,
-                                        self.height/2.))
+            #self.ellipse = Ellipse(pos=self.center,
+            #                      size=(lautadata.pallonHalkaisija*self.width,
+            #                            lautadata.pallonHalkaisija*self.width))
+            #self.rect = Rectangle(pos=self.center,
+            #                      size=(self.width/2.,
+            #                            self.height/2.))
         self.bind(pos=self.update_ball,
                   size=self.update_ball)
 
     def update_ball(self,*args):
-        self.ellipse.pos = (self.x, self.y)
+        self.ellipse.pos = (self.x*self.width, self.y*self.height)
         self.ellipse.size = (lautadata.pallonHalkaisija*self.width,
                              lautadata.pallonHalkaisija*self.width)
         print "UPDATE x"
