@@ -5,12 +5,31 @@
 """
 from pallo import Pallo
 from lautadata import LautaData
+from kivy.uix.floatlayout import FloatLayout
+from kivy.graphics import Ellipse, Color, Rectangle
 lautadata = LautaData();
 
-class Pallot(Pallo):
-    def __init__(self):
+class Pallot(FloatLayout, Pallo):
+    def __init__(self, **kwargs):
+        super(Pallot,self).__init__(**kwargs)
         self.pallot = []
         self.perusvaraus = 0.0
+        self.asetaPallojenAlkupaikat()
+        self.asetaPallojenVarit()               
+
+    def update_child(self,*args):
+        print "updating pallot"
+        with self.canvas:
+            self.canvas.clear()
+            for pallo in self.pallot:
+                
+                if pallo.getPalloVari()=="valkoinen":
+                    Color(1, 1., 1, 1.)  
+                else:
+                    Color(0, 1., 0, 1.)  # set the colour to gr
+                Ellipse(pos=(pallo.getPalloX()*self.width, 
+                             pallo.getPalloY()*self.height),
+                        size=(20,50))
 
     def getPallotArray(self):
         return self.pallot
@@ -102,14 +121,19 @@ class Pallot(Pallo):
         from math import pi, sin
         from random import shuffle
         # valkoinen pallo ensin
-        pallo = Pallo(lautadata.valkoinenX, lautadata.valkoinenY);
+        pallo = Pallo()
+        pallo.setPalloX(lautadata.valkoinenX)
+        pallo.setPalloY(lautadata.valkoinenY);
         self.pallot.append(pallo);
         # musta pallo toiseksi
-        pallo = Pallo(lautadata.alkuX,lautadata.alkuY 
-                      - 2.0*lautadata.pallonHalkaisija);
+        pallo = Pallo()
+        pallo.setPalloX(lautadata.alkuX)
+        pallo.setPalloY(lautadata.alkuY - 2.0*lautadata.pallonHalkaisija)
         self.pallot.append(pallo);
         # kärkipallo
-        pallo = Pallo(lautadata.alkuX,lautadata.alkuY);
+        pallo = Pallo()
+        pallo.setPalloX(lautadata.alkuX)
+        pallo.setPalloY(lautadata.alkuY);
         self.pallot.append(pallo); 
         
         xjono = []
@@ -135,7 +159,9 @@ class Pallot(Pallo):
         shuffle(indexes)
         #print "indexes", indexes, len(xjono), len(yjono)
         for index in indexes:
-            pallo = Pallo(xjono[index],yjono[index]);
+            pallo = Pallo()
+            pallo.setPalloX(xjono[index])
+            pallo.setPalloY(yjono[index])
             self.pallot.append(pallo); 
 
     def asetaPallojenVarit(self):       

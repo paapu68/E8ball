@@ -3,6 +3,7 @@
 #from gwc_python.GWCUtils import TOUCHREMOVED
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
 #from kivy.properties import NumericProperty, ReferenceListProperty,\
 #    ObjectProperty
 #from kivy.vector import Vector
@@ -19,19 +20,20 @@ from sys import exit
 
 lautadata = LautaData()
 
-class Pelilauta(Widget):
+class Pelilauta(FloatLayout):
     hole_d = NumericProperty(lautadata.reianHalkaisija)
     max_y  = NumericProperty(lautadata.maxLautaY)
     def __init__(self, **kwargs):
         super(Pelilauta,self).__init__(**kwargs)
 
-    def update(self):
-        print "ennen uodate_rect"
+    def update_child(self):
+        pass
+        #print "ennen uodate_rect"
         #self.update_rect()
 
 
 
-class E8ballGame(Widget):
+class E8ballGame(FloatLayout):
     lauta = ObjectProperty(None)
     #pallo = ObjectProperty(None)
     #keppi = ObjectProperty(None)
@@ -45,11 +47,7 @@ class E8ballGame(Widget):
         super(E8ballGame,self).__init__(**kwargs)
         self.pelilauta = Pelilauta()
         self.pallot = Pallot()
-        self.pallot.asetaPallojenAlkupaikat()
-        print self.pallot
-        for pallo in self.pallot.pallot:
-            self.add_widget(pallo)
-        #exit()
+        self.add_widget(self.pallot)
         self.biljardipeli = Biljardipeli(self.pallot)
         self.keppi = Keppi()
         self.shot = False
@@ -62,6 +60,33 @@ class E8ballGame(Widget):
 
 #    def get_pallot(self):
 #        return self.pallot
+
+    def do_layout(self, *args):
+        number_of_children = len(self.children)
+        width = self.width
+
+        for child in self.children:
+            child.height = self.height
+            child.width = self.width
+
+    def on_size(self, *args):
+        for child in self.children:
+            child.height = self.height
+            child.width = self.width
+            child.update_child()
+
+
+    def on_pos(self, *args):
+        self.do_layout()
+
+    #def add_widget(self, widget):
+    #    super(E8ballGame, self).add_widget(widget)
+    #    self.do_layout()
+
+    def remove_widget(self, widget):
+        #super(E8ballGame, self).remove_widget(widget)
+        self.do_layout()
+
 
     def on_touch_up(self, touch):
         """ Ammutaan pallo liikkeelle """
