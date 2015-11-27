@@ -13,6 +13,11 @@ from peli.biljardipeli import Biljardipeli
 from gui.piirtoalusta import PiirtoAlusta
 from kivy.properties import ObjectProperty, NumericProperty, ListProperty, BooleanProperty
 
+from peli.pelaajat import Pelaajat
+from peli.lisaaKiihtyvyydet import LisaaKiihtyvyydet
+from peli.velocityVerlet import VelocityVerlet
+from pelilauta.seina import Seina
+from pelilauta.reiat import Reiat
 from pelilauta.pallot import Pallot
 from pelilauta.lautadata import LautaData
 from pelilauta.keppi import Keppi
@@ -50,9 +55,16 @@ class E8ballGame(FloatLayout):
         for pallo in self.pallot.getPallotArray():
             print "ADDING BALL-WIDGET"
             self.add_widget(pallo)        
-        self.biljardipeli = Biljardipeli(self.pallot)
+        #self.biljardipeli = Biljardipeli(self.pallot)
         self.keppi = Keppi()
+        self.pelaajat = Pelaajat();
+        self.lisaakiihtyvyydet = LisaaKiihtyvyydet();
+        self.nopeusVerlet= VelocityVerlet(LautaData.dt);
+        self.seina = Seina();
+        self.reiat = Reiat();        
         self.shot = False
+        self.jatka = True;       
+        self.pallotliikkuu = True;        
         self.x1=0
         self.y1=0        
         self.x2=0
@@ -115,8 +127,58 @@ class E8ballGame(FloatLayout):
         print "SHOT????", self.shot
         if self.shot:
             self.shot = False
-            self.biljardipeli.juokse()
-        
+            self.juokse()
+
+    def juokse(self):
+
+        while (self.jatka):
+          # ammutaan lyöntipallo
+          #setDelay(1);
+          print "jatketaan...",self.nopeusVerlet.getMaxSiirtyma(),self.pallot.suurinNopeus()
+          self.reiat.resetoiReiat();
+
+          while (self.pallotliikkuu and self.jatka):
+                #self.pallot.update_child()
+                #print "loopissa...",self.nopeusVerlet.getMaxSiirtyma(),self.pallot.suurinNopeus(), self.pallot.suurinKiihtyvyys(), self.pallot.getPallotArray()[2].x 
+                self.pallot.nollaaKiihtyvyydet();
+                print "before", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y 
+                #self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
+                #    self.pallot);
+                self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
+                #self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
+                self.nopeusVerlet.PaivitaVelocityVerlet(self.pallot);
+                print "after", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y 
+                self.seina.VaihdaLiikemaara(self.pallot);
+                self.reiat.setEkanaReiassa(self.pallot);
+                self.reiat.lisaaReikiinMenneet(self.pallot);            
+                self.pelaajat.alkaakoYrittaaMustaa(self.reiat);
+                self.reiat.tapaNormiPallot(self.pallot);
+            
+                self.jatka = self.reiat.tarkastaPallo(self.pallot.getMustaPallo());
+            
+                if (not(self.reiat.tarkastaPallo(self.pallot.getLyontiPallo()
+                                             ))):
+                    self.pallot.arvoLyontiPallonPaikka(0, 0, 
+                        LautaData.MaxLautaX,LautaData.MaxLautaY, 
+                        0.20);
+                    self.pallotliikkuu = False;
+                    self.pallot.nollaaNopeudet();
+                    # tutkitaan mitä tapahtui
+                    self.jatka = self.pelaajat.tarkastaTilanne(
+                        self.reiat, self.pallot);                
+                elif ((self.nopeusVerlet.getMaxSiirtyma() < LautaData.maxSiirtyma) 
+                      and (self.pallot.suurinNopeus() < LautaData.maxNopeus)):
+                    self.pallotliikkuu = False
+                    self.pallot.nollaaNopeudet()
+                    self.nopeusVerlet.setMaxSiirtyma(1.0)
+                    # tutkitaan mitä tapahtui
+                    self.jatka = self.pelaajat.tarkastaTilanne(
+                        self.reiat, self.pallot)
+                #sys.exit()
+        # nollataan reikien tilanne uutta lyöntiä varten
+        self.jatka = self.pelaajat.tarkastaTilanne(self.reiat, self.pallot);
+
+            
 
 class E8ballApp(App):
     def build(self):
