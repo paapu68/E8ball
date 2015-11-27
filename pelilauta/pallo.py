@@ -9,13 +9,15 @@
 """
 from pelilauta.lautadata import LautaData
 from sys import exit
+from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty, NumericProperty, ListProperty, BooleanProperty
 
 lautadata = LautaData()
 
-class Pallo:
-    #ball_d = NumericProperty(lautadata.pallonHalkaisija)
-    #x = NumericProperty()
-    #y = NumericProperty()
+class Pallo(Widget):
+    ball_d = NumericProperty(lautadata.pallonHalkaisija)
+    x = NumericProperty()
+    y = NumericProperty()
 
     def __init__(self, **kwargs):
         """
@@ -28,6 +30,7 @@ class Pallo:
         *  varaus pallon varaus mikrocoulombeina
         *  vari pallon väri
         """
+        super(Pallo,self).__init__(**kwargs)
         self.x = 0.0
         self.y = 0.0
         self.vx = 0.0;

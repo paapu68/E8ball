@@ -7,7 +7,7 @@ class Keppi:
     kulmaAskel=1.0
     poikkeama=0.01
     poikkeamaAskel=0.01
-    jousivakio=10000.0
+    jousivakio=1.0
 
     def getKulmaRadian(self):
         from math import pi

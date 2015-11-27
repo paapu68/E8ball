@@ -33,8 +33,6 @@ class Biljardipeli(Widget):
 
     def juokse(self):
 
-        with self.canvas:
-            print "KUKKUU", self.size
         while (self.jatka):
           # ammutaan lyöntipallo
           #setDelay(1);
@@ -42,14 +40,16 @@ class Biljardipeli(Widget):
           self.reiat.resetoiReiat();
 
           while (self.pallotliikkuu and self.jatka):
-                print "loopissa...",self.nopeusVerlet.getMaxSiirtyma(),self.pallot.suurinNopeus(), self.pallot.suurinKiihtyvyys(), self.pallot.getPallotArray()[2].x 
+                #self.pallot.update_child()
+                #print "loopissa...",self.nopeusVerlet.getMaxSiirtyma(),self.pallot.suurinNopeus(), self.pallot.suurinKiihtyvyys(), self.pallot.getPallotArray()[2].x 
                 self.pallot.nollaaKiihtyvyydet();
-                self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
-                    self.pallot);
+                print "before", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y 
+                #self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
+                #    self.pallot);
                 self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
-                self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
+                #self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
                 self.nopeusVerlet.PaivitaVelocityVerlet(self.pallot);
-                print "after", self.pallot.getPallotArray()[2].x 
+                print "after", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y 
                 self.seina.VaihdaLiikemaara(self.pallot);
                 self.reiat.setEkanaReiassa(self.pallot);
                 self.reiat.lisaaReikiinMenneet(self.pallot);            
@@ -75,7 +75,8 @@ class Biljardipeli(Widget):
                     self.nopeusVerlet.setMaxSiirtyma(1.0)
                     # tutkitaan mitä tapahtui
                     self.jatka = self.pelaajat.tarkastaTilanne(
-                        self.reiat, self.pallot);
+                        self.reiat, self.pallot)
+                #sys.exit()
         # nollataan reikien tilanne uutta lyöntiä varten
         self.jatka = self.pelaajat.tarkastaTilanne(self.reiat, self.pallot);
 

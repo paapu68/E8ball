@@ -44,7 +44,7 @@ class VelocityVerlet:
                     + (yold-ynew)*(yold-ynew));
             if (siirtyma > self.maxSiirtyma):
                 self.maxSiirtyma = siirtyma;
-            print "xold,xnew,axold", xold, xnew, axold, self.dt
+            #print "xold,xnew,axold", xold, xnew, axold, self.dt
         #exit()
 
     def getMaxSiirtyma(self):

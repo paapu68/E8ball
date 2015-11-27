@@ -5,31 +5,14 @@
 """
 from pallo import Pallo
 from lautadata import LautaData
-from kivy.uix.floatlayout import FloatLayout
-from kivy.graphics import Ellipse, Color, Rectangle
 lautadata = LautaData();
 
-class Pallot(FloatLayout, Pallo):
+class Pallot(Pallo):
     def __init__(self, **kwargs):
-        super(Pallot,self).__init__(**kwargs)
         self.pallot = []
         self.perusvaraus = 0.0
         self.asetaPallojenAlkupaikat()
-        self.asetaPallojenVarit()               
-
-    def update_child(self,*args):
-        print "updating pallot"
-        with self.canvas:
-            self.canvas.clear()
-            for pallo in self.pallot:
-                
-                if pallo.getPalloVari()=="valkoinen":
-                    Color(1, 1., 1, 1.)  
-                else:
-                    Color(0, 1., 0, 1.)  # set the colour to gr
-                Ellipse(pos=(pallo.getPalloX()*self.width, 
-                             pallo.getPalloY()*self.height),
-                        size=(20,50))
+        self.asetaPallojenVarit()
 
     def getPallotArray(self):
         return self.pallot
@@ -203,5 +186,4 @@ class Pallot(FloatLayout, Pallo):
         # positiiviset (siniset pallot, 9-15)
         for i in range(9, 16):
             self.pallot[i].setPalloVaraus(self.perusvaraus);
-
 
