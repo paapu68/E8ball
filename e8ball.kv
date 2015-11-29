@@ -2,9 +2,11 @@
 
 <Pallo>:
     id: peli_pallo
+    #height: root.height
+    #width: root.width
     canvas:
         Ellipse:
-            pos: self.x, self.y
+            pos: self.x*self.width, self.y*self.height
             size: self.ball_d*self.width, self.ball_d*self.width
 
 <Pelilauta>:

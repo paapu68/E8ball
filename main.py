@@ -41,6 +41,7 @@ class Pelilauta(FloatLayout):
 class E8ballGame(FloatLayout):
     lauta = ObjectProperty(None)
     #pallo = ObjectProperty(None)
+    #pallo = ObjectProperty(None)
     #keppi = ObjectProperty(None)
     #kuuntelija = ObjectProperty(None)
     x1 = NumericProperty()
@@ -54,8 +55,12 @@ class E8ballGame(FloatLayout):
         self.pelilauta = Pelilauta()
         for pallo in self.pallot.getPallotArray():
             print "ADDING BALL-WIDGET"
+            x=pallo.getPalloX()
+            y=pallo.getPalloY()
+            print "x,y", x, y
             self.add_widget(pallo)        
         #self.biljardipeli = Biljardipeli(self.pallot)
+        #exit()
         self.keppi = Keppi()
         self.pelaajat = Pelaajat();
         self.lisaakiihtyvyydet = LisaaKiihtyvyydet();
@@ -117,7 +122,9 @@ class E8ballGame(FloatLayout):
         y=pallo.getPalloY()
         print "VALK x",x
         pallo.setPalloX(x+20)
-        pallo.setPalloY(y+20)                        
+        pallo.setPalloY(y+20)
+
+#    def update_
 
 
         
