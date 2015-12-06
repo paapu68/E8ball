@@ -146,7 +146,11 @@ class Pallot(Pallo):
             pallo.setPalloX(xjono[index])
             pallo.setPalloY(yjono[index])
             self.pallot.append(pallo); 
-
+        
+        #for pallo in self.pallot:
+        #    print "pallo.x", pallo.x
+        #exit()
+            
     def asetaPallojenVarit(self):       
         """
         * Asetetaan pallojen varit.

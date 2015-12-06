@@ -23,6 +23,7 @@ class VelocityVerlet:
         self.maxSiirtyma = -1.0;
         p1 = pallot.getPallotArray()
         for pallo1 in p1:
+            #print "YOLD,VYOLD", pallo1.getPalloY(), pallo1.getPalloVY() 
             axold = pallo1.getPalloAX();
             ayold = pallo1.getPalloAY();
             xold = pallo1.getPalloX();
@@ -32,7 +33,7 @@ class VelocityVerlet:
                    + 0.5 * pallo1.getPalloAX() * self.dt * self.dt
             ynew = pallo1.getPalloY() + pallo1.getPalloVY()*self.dt\
                    + 0.5 * pallo1.getPalloAY() * self.dt * self.dt;
-            pallo1.setPalloX(xnew);
+            pallo1.setPalloX(xnew)
             pallo1.setPalloY(ynew);
             vxnew = pallo1.getPalloVX() 
             + 0.5 * (axold + pallo1.getPalloAX()) * self.dt; 
@@ -44,7 +45,7 @@ class VelocityVerlet:
                     + (yold-ynew)*(yold-ynew));
             if (siirtyma > self.maxSiirtyma):
                 self.maxSiirtyma = siirtyma;
-            #print "xold,xnew,axold", xold, xnew, axold, self.dt
+            #print "YNEW,VYNEW", pallo1.getPalloY(), pallo1.getPalloVY()
         #exit()
 
     def getMaxSiirtyma(self):

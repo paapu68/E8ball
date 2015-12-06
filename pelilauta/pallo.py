@@ -11,6 +11,7 @@ from pelilauta.lautadata import LautaData
 from sys import exit
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty, NumericProperty, ListProperty, BooleanProperty
+from kivy.graphics import Ellipse, Color, Rectangle
 
 lautadata = LautaData()
 
@@ -31,21 +32,22 @@ class Pallo(Widget):
         *  vari pallon väri
         """
         super(Pallo,self).__init__(**kwargs)
-        self.x = 0.0
-        self.y = 0.0
+        self.ball_d = lautadata.pallonHalkaisija
+        self.x = -1
+        self.y = -1
         self.vx = 0.0;
         self.vy = 0.0;
         self.ax = 0.0;
         self.ay = 0.0;
         self.varaus = 0.0;
         self.vari = "";
-
+            
     def getPalloX(self):
         return self.x
     
     def getPalloY(self):
         return self.y
-    
+
     def getPalloVX(self):
         return self.vx
     

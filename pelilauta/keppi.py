@@ -40,6 +40,7 @@ class Keppi:
                 self.getVoima()*cos(self.getKulmaRadian()))
         pallo.setPalloVY(-LautaData.dt/LautaData.pallonMassa*
                 self.getVoima()*sin(self.getKulmaRadian()))
+        print "VX, VY", pallo.getPalloVX(), pallo.getPalloVY()
     
     def setPoikkeama(self,sx1, sy1, sx2, sy2):
         from math import sqrt
