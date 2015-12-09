@@ -53,20 +53,21 @@ class LisaaKiihtyvyydet:
         * @param pallot Pallot jotka vuorovaikuttavat kesken‰‰n.
         """
         from math import pow, sqrt
-        epsilon = 1e-13;
-        minDist = LautaData.pallonHalkaisija /2.0
+        epsilon = 1e-11;
+        minDist = LautaData.pallonHalkaisija / 2.
         p1 = pallot.getPallotArray()
         for pallo1 in p1:
             for pallo2 in p1:
                 dx = pallo1.getPalloX() - pallo2.getPalloX()
                 dy = pallo1.getPalloY() - pallo2.getPalloY()
                 d = sqrt(dx*dx + dy*dy) - minDist
-                d10 = pow(d,10);
+                d6 = pow(d,6);
                 massa = LautaData.pallonMassa
                 if (pallo1 != pallo2):
-                    pallo1.lisaaPalloAX((epsilon * dx) / (d10 * massa));
-                    pallo1.lisaaPalloAY((epsilon * dy) / (d10 * massa));
-       
+                    #print "d, minDist", sqrt(dx*dx + dy*dy), minDist
+                    pallo1.lisaaPalloAX((epsilon * dx) / (d6 * massa));
+                    pallo1.lisaaPalloAY((epsilon * dy) / (d6 * massa));
+        #sys.exit()
     def lisaaKitka(self, pallot):
         """
         * Lis‰t‰‰n kitkasta aiheuta hidastuvuus palloille.

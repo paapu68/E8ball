@@ -7,12 +7,11 @@ class Keppi:
     kulmaAskel=1.0
     poikkeama=0.01
     poikkeamaAskel=0.01
-    jousivakio=1.0
+    jousivakio=1.0e-3
 
     def getKulmaRadian(self):
         from math import pi
         return self.kulma/360.0*2.0*pi
-
 
     def getVoima(self):
         """ voima jolla kepillä lyödään palloa (N) """
@@ -36,13 +35,22 @@ class Keppi:
         f=m*a = m*dv/dt
         dv=f*dt/m """
         from math import cos, sin
-        pallo.setPalloVX(-LautaData.dt/LautaData.pallonMassa*
-                self.getVoima()*cos(self.getKulmaRadian()))
-        pallo.setPalloVY(-LautaData.dt/LautaData.pallonMassa*
-                self.getVoima()*sin(self.getKulmaRadian()))
+        pallo.setPalloVX(-self.poikkeama_x*self.jousivakio)
+        pallo.setPalloVY(-self.poikkeama_y*self.jousivakio)                
+        #pallo.setPalloVX(-LautaData.dt/LautaData.pallonMassa*
+        #                 self.getVoima()*self.poikkeama_x)
+        #pallo.setPalloVY(-LautaData.dt/LautaData.pallonMassa*
+        #                 self.getVoima()*self.poikkeama_y)
         print "VX, VY", pallo.getPalloVX(), pallo.getPalloVY()
+        #sys.exit()
     
     def setPoikkeama(self,sx1, sy1, sx2, sy2):
         from math import sqrt
         self.poikkeama = sqrt((sx1-sx2)**2 + (sy1-sy2)**2)
+
+    def setPoikkeama_x(self,sx1, sx2):
+        self.poikkeama_x = sx2-sx1
+
+    def setPoikkeama_y(self,sy1, sy2):
+        self.poikkeama_y = sy2-sy1        
    

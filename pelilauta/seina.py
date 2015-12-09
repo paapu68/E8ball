@@ -30,7 +30,8 @@ class Seina:
                 pallo1.setPalloVY(abs(pallo1.getPalloVY()))
             if (pallo1.getPalloY() >= self.ylay):
                 pallo1.setPalloVY(-abs(pallo1.getPalloVY()))
-
+            print "x,y:", pallo1.getPalloX(),pallo1.getPalloY()
+            
     def getYlax(self):
         return self.ylax
 

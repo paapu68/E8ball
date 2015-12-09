@@ -51,13 +51,7 @@ class E8ballGame(FloatLayout):
         self.pelilauta = Pelilauta()
         for pallo in self.pallot.getPallotArray():
             print "ADDING BALL-WIDGET"
-            #x=pallo.getPalloX()
-            #y=pallo.getPalloY()
-            #print "x,y", x, y
             self.add_widget(pallo)
-            #pallo.update_ellipse()
-        #self.biljardipeli = Biljardipeli(self.pallot)
-        #exit()
         self.keppi = Keppi()
         self.pelaajat = Pelaajat();
         self.lisaakiihtyvyydet = LisaaKiihtyvyydet();
@@ -70,7 +64,6 @@ class E8ballGame(FloatLayout):
         self.y1=0        
         self.x2=0
         self.y2=0
-        print "INIT"
 
     def do_layout(self, *args):
         print "LAYOUT"
@@ -91,23 +84,19 @@ class E8ballGame(FloatLayout):
     def on_touch_up(self, touch):
         """ Ammutaan pallo liikkeelle """
         self.keppi.setPoikkeama(self.x1, self.y1, self.x2, self.y2)
+        self.keppi.setPoikkeama_x(self.x1, self.x2)
+        self.keppi.setPoikkeama_y(self.y1, self.y2)                
         self.x1=0
         self.y1=0        
         self.x2=0
         self.y2=0
-        for pallo in self.pallot.getPallotArray():
-            pallo.setPalloVX(0.1)
-            #y=pallo.getPalloY()
-            #pallo.setPalloX(x+1e-3)        
-        #self.keppi.iske(self.pallot.getLyontiPallo())
+        self.keppi.iske(self.pallot.getLyontiPallo())
         #self.do_lay()
         print "SHOT"
-        self.reiat.resetoiReiat()        
+        self.reiat.resetoiReiat()
         self.jatka = True
 
     def on_touch_move(self, touch):
-        #print "KEPPI: self.width, self.height",self.width, self.height
-        #exit()
         touch.ud['x1'] = self.pallot.getLyontiPallo().getPalloX()*self.width
         touch.ud['y1'] = self.pallot.getLyontiPallo().getPalloY()*self.height
         self.x1 = touch.ud['x1']
@@ -116,24 +105,13 @@ class E8ballGame(FloatLayout):
         touch.ud['y2'] = touch.y
         self.x2 = touch.ud['x2']
         self.y2 = touch.ud['y2']
-        pallo = self.pallot.getPallotArray()[1]
-        #xx=pallo.getPalloX()
-        #yy=pallo.getPalloY()
-        #print "VALK x",xx
-        #pallo.setPalloX(xx+0.1)
-        #pallo.setPalloY(yy+0.1)
 
     def juokse(self):
-        count = 0
-        while (self.pallotliikkuu and self.jatka and count < 10):
-            count = count + 1
-            #self.pallot.update_child()
-            #print "loopissa...",self.nopeusVerlet.getMaxSiirtyma(),self.pallot.suurinNopeus(), self.pallot.suurinKiihtyvyys(), self.pallot.getPallotArray()[2].x 
+        while (self.pallotliikkuu and self.jatka):
             self.pallot.nollaaKiihtyvyydet();
-            print "before", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y, self.pallot.getPallotArray()[0].vx , self.pallot.getPallotArray()[0].vy
             #self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
             #    self.pallot);
-            #self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
+            self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
             #self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
             self.nopeusVerlet.PaivitaVelocityVerlet(self.pallot);
             #print "after000", self.pallot.getPallotArray()[0].x , self.pallot.getPallotArray()[0].y
@@ -183,7 +161,7 @@ class E8ballApp(App):
         #game.set_biljardipeli(biljardipeli)
         #pelilauta.set_peli(biljardipeli)
         #game.set_pelilauta(pelilauta)
-        Clock.schedule_interval(game.do_layout, 1.0 / 6.0)
+        Clock.schedule_interval(game.do_layout, 1.0 / 2.0)
         return game
         #return parent
 

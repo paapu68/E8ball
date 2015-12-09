@@ -5,7 +5,9 @@
     #height: root.height
     #width: root.width
     canvas:
-        Clear
+        Color:
+            rgba: self.bcolor
+            #rgba: 1, 0, 1, 0.5    
         Ellipse:
             pos: self.x*self.width, self.y*self.height
             size: self.ball_d*self.width, self.ball_d*self.width

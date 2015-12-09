@@ -19,6 +19,7 @@ class Pallo(Widget):
     ball_d = NumericProperty(lautadata.pallonHalkaisija)
     x = NumericProperty()
     y = NumericProperty()
+    bcolor = ListProperty([1,1,1,1])
 
     def __init__(self, **kwargs):
         """
@@ -35,6 +36,7 @@ class Pallo(Widget):
         self.ball_d = lautadata.pallonHalkaisija
         self.x = -1
         self.y = -1
+        self.bcolor = [1,1,1,1]
         self.vx = 0.0;
         self.vy = 0.0;
         self.ax = 0.0;
@@ -91,6 +93,14 @@ class Pallo(Widget):
 
     def setPalloVari(self, vari):
         self.vari = vari
+        if vari=='valkoinen':
+            self.bcolor = [1,1,1,1]
+        elif vari=='musta':
+            self.bcolor = [0,0,0,1]
+        elif vari=='punainen':
+            self.bcolor = [1,0,0,1]
+        elif vari=='sininen':
+            self.bcolor = [0,0,1,1]                        
 
     def getPalloVaraus(self):
         """Pallon varaus Coulombeissa """

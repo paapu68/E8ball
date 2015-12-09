@@ -3,7 +3,7 @@
     see 'http://en.wikipedia.org/wiki/Billiard_table' """
 
 class LautaData():
-    dt = 1e-3 #aika-askel
+    dt = 1e-2 #aika-askel
     maxSiirtyma = 0.01
     maxNopeus = 0.001
     kitkaKerroin = 100.0
