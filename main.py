@@ -107,7 +107,10 @@ class E8ballGame(FloatLayout):
         self.y2 = touch.ud['y2']
 
     def juokse(self):
-        while (self.pallotliikkuu and self.jatka):
+        count = 0
+        while (self.pallotliikkuu and self.jatka and count < 10):
+            count = count + 1
+        
             self.pallot.nollaaKiihtyvyydet();
             #self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
             #    self.pallot);
