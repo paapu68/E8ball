@@ -74,27 +74,43 @@ class LisaaKiihtyvyydet:
         * https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
 
         """
+        import numpy as np
         from math import pow, sqrt
         epsilon = 1e-11;
-        minDist = LautaData.pallonHalkaisija / 2.
+        #minDist = LautaData.pallonHalkaisija / 2.
+        minDist = LautaData.pallonHalkaisija 
         p1 = pallot.getPallotArray()
-        for pallo1 in p1:
-            for pallo2 in p1:
+        imax = len(pallot.getPallotArray())
+        for i in range(imax):
+            for j in range(i+1,imax):
+                pallo1 = p1[i]
+                pallo2 = p1[j]
                 # ovatko samaan suuntaan? (nopeuksien pistetulo > 0)
                 vdot = np.dot([pallo1.getPalloVX(), pallo1.getPalloVY()],
-                       [pallo1.getPalloVX(), pallo1.getPalloVY()])
-                if vdot > 0:
+                       [pallo2.getPalloVX(), pallo2.getPalloVY()])
+                #print i,j,vdot
+                dx = pallo1.getPalloX() - pallo2.getPalloX()
+                dy = pallo1.getPalloY() - pallo2.getPalloY()
+                d = sqrt(dx*dx + dy*dy) 
+
+                #if (vdot >= 0) and (d < minDist):
+                if (d < minDist):
                 
-                    dx = pallo1.getPalloX() - pallo2.getPalloX()
-                    dy = pallo1.getPalloY() - pallo2.getPalloY()
                     dvx = pallo1.getPalloVX() - pallo2.getPalloVX()
                     dvy = pallo1.getPalloVY() - pallo2.getPalloVY()
-                    d = sqrt(dx*dx + dy*dy) 
+                    v1x = float(pallo1.getPalloVX() \
+                         - np.dot([dvx,dvy],[dx,dy])/(d*d)*dx)
+                    v1y = float(pallo1.getPalloVY() \
+                         - np.dot([dvx,dvy],[dx,dy])/(d*d)*dy)
+                    v2x = float(pallo2.getPalloVX() \
+                         + np.dot([-dvx,-dvy],[-dx,-dy])/(d*d)*dx)
+                    v2y = float(pallo2.getPalloVY() \
+                         + np.dot([-dvx,-dvy],[-dx,-dy])/(d*d)*dy)
+                    pallo1.setPalloVX(v1x)
+                    pallo1.setPalloVY(v1y)
+                    pallo2.setPalloVX(v2x)
+                    pallo2.setPalloVY(v2y)                    
 
-                    if (pallo1 != pallo2):
-                        #print "d, minDist", sqrt(dx*dx + dy*dy), minDist
-                        pallo1.lisaaPalloAX((epsilon * dx) / (d6 * massa));
-                        pallo1.lisaaPalloAY((epsilon * dy) / (d6 * massa));
 
                     
     def lisaaKitka(self, pallot):

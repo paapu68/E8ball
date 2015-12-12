@@ -117,7 +117,8 @@ class E8ballGame(FloatLayout):
             self.pallot.nollaaKiihtyvyydet();
             #self.lisaakiihtyvyydet.lisaaCoulombKiihtyvyydetBiljardiPallot(
             #    self.pallot);
-            self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
+            #self.lisaakiihtyvyydet.lisaaHardCoreKiihtyvyydet(self.pallot);
+            self.lisaakiihtyvyydet.lisaaTormays(self.pallot);
             #self.lisaakiihtyvyydet.lisaaKitka(self.pallot);
             self.nopeusVerlet.PaivitaVelocityVerlet(self.pallot);
             self.seina.VaihdaLiikemaara(self.pallot);
