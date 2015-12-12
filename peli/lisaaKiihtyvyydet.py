@@ -67,7 +67,36 @@ class LisaaKiihtyvyydet:
                     #print "d, minDist", sqrt(dx*dx + dy*dy), minDist
                     pallo1.lisaaPalloAX((epsilon * dx) / (d6 * massa));
                     pallo1.lisaaPalloAY((epsilon * dy) / (d6 * massa));
-        #sys.exit()
+                    
+    def lisaaTormays(self, pallot):
+        """
+        * Pallojen tˆrm‰ys liikem‰‰r‰n s‰ilymisen avulla 
+        * https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
+
+        """
+        from math import pow, sqrt
+        epsilon = 1e-11;
+        minDist = LautaData.pallonHalkaisija / 2.
+        p1 = pallot.getPallotArray()
+        for pallo1 in p1:
+            for pallo2 in p1:
+                # ovatko samaan suuntaan? (nopeuksien pistetulo > 0)
+                vdot = np.dot([pallo1.getPalloVX(), pallo1.getPalloVY()],
+                       [pallo1.getPalloVX(), pallo1.getPalloVY()])
+                if vdot > 0:
+                
+                    dx = pallo1.getPalloX() - pallo2.getPalloX()
+                    dy = pallo1.getPalloY() - pallo2.getPalloY()
+                    dvx = pallo1.getPalloVX() - pallo2.getPalloVX()
+                    dvy = pallo1.getPalloVY() - pallo2.getPalloVY()
+                    d = sqrt(dx*dx + dy*dy) 
+
+                    if (pallo1 != pallo2):
+                        #print "d, minDist", sqrt(dx*dx + dy*dy), minDist
+                        pallo1.lisaaPalloAX((epsilon * dx) / (d6 * massa));
+                        pallo1.lisaaPalloAY((epsilon * dy) / (d6 * massa));
+
+                    
     def lisaaKitka(self, pallot):
         """
         * Lis‰t‰‰n kitkasta aiheuta hidastuvuus palloille.
