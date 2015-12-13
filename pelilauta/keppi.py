@@ -7,15 +7,15 @@ class Keppi:
     kulmaAskel=1.0
     poikkeama=0.01
     poikkeamaAskel=0.01
-    jousivakio=1.0e-3
 
+    
     def getKulmaRadian(self):
         from math import pi
         return self.kulma/360.0*2.0*pi
 
     def getVoima(self):
         """ voima jolla kepillä lyödään palloa (N) """
-        return -self.jousivakio*self.poikkeama
+        return -LautaData.jousivakio*self.poikkeama
 
     def kierraVastapaivaan(self):
         """ lyontikeppiä kierretään vastapaivaan """
@@ -35,8 +35,8 @@ class Keppi:
         f=m*a = m*dv/dt
         dv=f*dt/m """
         from math import cos, sin
-        pallo.setPalloVX(-self.poikkeama_x*self.jousivakio)
-        pallo.setPalloVY(-self.poikkeama_y*self.jousivakio)                
+        pallo.setPalloVX(-self.poikkeama_x*LautaData.jousivakio)
+        pallo.setPalloVY(-self.poikkeama_y*LautaData.jousivakio)                
         #pallo.setPalloVX(-LautaData.dt/LautaData.pallonMassa*
         #                 self.getVoima()*self.poikkeama_x)
         #pallo.setPalloVY(-LautaData.dt/LautaData.pallonMassa*

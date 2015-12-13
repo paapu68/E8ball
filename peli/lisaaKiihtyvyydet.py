@@ -112,6 +112,26 @@ class LisaaKiihtyvyydet:
                     pallo2.setPalloVY(v2y)                    
 
 
+    def lisaaKitkaNopeuteen(self, pallot):
+        """
+        * skaalataan nopeuksia alas
+        * Kitkan suunta on nopeutta vastaan.
+        yritet‰‰n pienent‰‰ nopeus sadasosaa kahden laudanmitan matkalla
+        """
+        #max nopeus on kepin isku, aika on v=ds/dt eli dt=ds/v
+        #oletetaan max kepin pituus 1
+        aika = 2.0/(1.*LautaData.jousivakio)
+        #aika_askeleita=aika/LautaData.dt
+        aika_askeleita=1000.
+        #print "AIKA", aika_askeleita, aika
+        p = pallot.getPallotArray();
+        for pallo in p:
+            vx = pallo.getPalloVX();
+            vy = pallo.getPalloVY();
+            pallo.setPalloVX(vx-vx/aika_askeleita)
+            pallo.setPalloVY(vy-vy/aika_askeleita)            
+
+
                     
     def lisaaKitka(self, pallot):
         """

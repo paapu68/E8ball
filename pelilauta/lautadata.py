@@ -3,10 +3,11 @@
     see 'http://en.wikipedia.org/wiki/Billiard_table' """
 
 class LautaData():
-    dt = 1e-2 #aika-askel
+    jousivakio = 1.0e-3 # kepin jousivakio
+    dt = 2e-2 #aika-askel
     maxSiirtyma = 0.01
     maxNopeus = 0.001
-    kitkaKerroin = 100.0
+    kitkaKerroin = 2.5
     minLautaX = 0.0
     minLautaY = 0.0;
     maxLautaX = 1.0;
