@@ -14,8 +14,22 @@ class Reiat:
     """
 
     def __init__(self):
+        from lautadata import LautaData        
         self.reiatX = []
+        self.reiatX.append(LautaData.minLautaX)
+        self.reiatX.append(LautaData.minLautaX)
+        self.reiatX.append(LautaData.minLautaX)
+        self.reiatX.append(LautaData.maxLautaX-LautaData.pallonHalkaisija)
+        self.reiatX.append(LautaData.maxLautaX-LautaData.pallonHalkaisija)
+        self.reiatX.append(LautaData.maxLautaX-LautaData.pallonHalkaisija)
         self.reiatY = []
+        self.reiatY.append(LautaData.minLautaY)
+        self.reiatY.append(LautaData.maxLautaY*0.5)
+        self.reiatY.append(LautaData.maxLautaY)
+        self.reiatY.append(LautaData.minLautaY)
+        self.reiatY.append(LautaData.maxLautaY*0.5)
+        self.reiatY.append(LautaData.maxLautaY)                
+        
         #LautaData lautadata = new LautaData();
         self.mitaReiissa = {}
         self.mitaReiissa["musta"] = 0
@@ -53,8 +67,9 @@ class Reiat:
                  vari = p1.getPalloVari();
                  lkm = self.mitaReiissa.get(vari);
                  lkm = lkm + 1;
-                 self.mitaReiissa.put(vari, lkm);
-             
+                 self.mitaReiissa[vari] = lkm
+        #for key, value in self.mitaReiissa.iteritems():
+        #    print "vari, lkm", key, value
         
     def getMitaReiissa(self):
         """
@@ -99,14 +114,18 @@ class Reiat:
         * @return jos pallo on reiässä palautetaan false, muuten true
         """
         from math import sqrt
+        from lautadata import LautaData
+        
         jatka = True
 
+        #print "tarkastaPallo(self, pallo):",len(self.reiatX)
         x = pallo.getPalloX()
         y = pallo.getPalloY()
         for j in range(0, len(self.reiatX)):
             d = sqrt((x-self.reiatX[j])**2
                 +(y-self.reiatY[j])**2)
-            if (d < lautadata.reianHalkaisija/2.0):
+            #print "d", d
+            if (d < LautaData.reianHalkaisija/2.0):
                 jatka = False
         return jatka
 

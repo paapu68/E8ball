@@ -77,7 +77,7 @@ class Pallot(Pallo):
         """
         from random import random
         from math import sqrt
-        lyontiPallo = self.pallot.get(0);
+        lyontiPallo = self.pallot[0]
         minDist = 0.0;
         newx = 0.0;
         newy = 0.0;

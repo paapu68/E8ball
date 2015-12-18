@@ -94,7 +94,7 @@ class E8ballGame(FloatLayout):
         print "SHOT"
         self.reiat.resetoiReiat()
         self.jatka = True
-        #self.do_layout()
+        self.do_layout()
         #self.do_layout()
         
 
@@ -133,9 +133,10 @@ class E8ballGame(FloatLayout):
 
             if (not(self.reiat.tarkastaPallo(self.pallot.getLyontiPallo()
             ))):
-                self.pallot.arvoLyontiPallonPaikka(0, 0, 
-                                                   LautaData.MaxLautaX,LautaData.MaxLautaY, 
-                                                   0.20);
+                self.pallot.arvoLyontiPallonPaikka(\
+                    0, 0, 
+                    LautaData.maxLautaX,LautaData.maxLautaY, 
+                    0.20)
                 self.pallotliikkuu = False;
                 self.pallot.nollaaNopeudet();
                 # tutkitaan mitä tapahtui
@@ -152,7 +153,6 @@ class E8ballGame(FloatLayout):
                 #sys.exit()
             # nollataan reikien tilanne uutta lyöntiä varten
             self.jatka = self.pelaajat.tarkastaTilanne(self.reiat, self.pallot);
-            print "EXIT"
 
         
 class E8ballApp(App):
@@ -161,7 +161,7 @@ class E8ballApp(App):
         #game.set_biljardipeli(biljardipeli)
         #pelilauta.set_peli(biljardipeli)
         #game.set_pelilauta(pelilauta)
-        Clock.schedule_interval(game.do_layout, 1/30)
+        #Clock.schedule_interval(game.do_layout, 0.1)
         return game
         #return parent
 
